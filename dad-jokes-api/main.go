@@ -14,6 +14,8 @@ import (
 func main() {
 	router := gin.Default()
 	router.GET("/", getRandomJoke)
+	router.GET("/random", getRandomJoke)
+
 	router.Run("localhost:8080")
 }
 
@@ -29,8 +31,22 @@ func getRandomJoke(c *gin.Context) {
 	jokes := make([]string, 0)
 	err = json.Unmarshal(jsonFile, &jokes)
 	if err != nil {
-		log.Fatal("Error decoding json: ", err)
+		log.Fatal("Error decoding JSON: ", err)
 	}
 	n := rand.Int() % len(jokes)
 	c.IndentedJSON(http.StatusOK, jokes[n])
+}
+
+func searchJokes(searchString string) []string {
+
+	log.SetPrefix("searchJokes(): ")
+	var results []string
+
+	jsonFile, err := ioutil.ReadFile("./jokes.json")
+
+	if err != nil {
+		log.Fatal("Error decoding JSON: ", err)
+	}
+
+	return results
 }
