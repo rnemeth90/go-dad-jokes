@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"sort"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -15,6 +16,11 @@ func main() {
 	router := gin.Default()
 	router.GET("/", getRandomJoke)
 	router.GET("/random", getRandomJoke)
+	router.GET("/search:searchString", func(c *gin.Context) {
+		s := c.Param("searchString")
+		r := searchJokes(s)
+		c.String(http.StatusOK, r)
+	})
 
 	router.Run("localhost:8080")
 }
@@ -37,16 +43,28 @@ func getRandomJoke(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, jokes[n])
 }
 
-func searchJokes(searchString string) []string {
+func searchJokes(searchString string) string {
 
 	log.SetPrefix("searchJokes(): ")
-	var results []string
+	jokes := make([]string, 0)
+	// results := make([]string, 0)
+	var result string
 
 	jsonFile, err := ioutil.ReadFile("./jokes.json")
+	if err != nil {
+		log.Fatal("Error opening JSON: ", err)
+	}
 
+	err = json.Unmarshal(jsonFile, &jokes)
 	if err != nil {
 		log.Fatal("Error decoding JSON: ", err)
 	}
+	sort.Strings(jokes)
 
-	return results
+	x := sort.SearchStrings(jokes, searchString)
+	if x > 0 {
+		result = jokes[x]
+	}
+
+	return result
 }
