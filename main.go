@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rnemeth90/go-dad-jokes/api"
+	"github.com/rnemeth90/go-dad-jokes"
 )
 
 func main() {
