@@ -1,4 +1,4 @@
-package jokes
+package api
 
 import (
 	"encoding/json"
