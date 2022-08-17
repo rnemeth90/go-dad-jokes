@@ -16,7 +16,7 @@ func GetRandomJoke(c *gin.Context) {
 	rand.Seed(time.Now().Unix())
 	log.SetPrefix("getRandomJoke(): ")
 
-	jsonFile, err := ioutil.ReadFile("./jokes.json")
+	jsonFile, err := ioutil.ReadFile("./api/jokes.json")
 	if err != nil {
 		log.Fatal("Error opening the file: ", err)
 	}
@@ -37,7 +37,7 @@ func SearchJokes(searchString string) string {
 	// results := make([]string, 0)
 	var result string
 
-	jsonFile, err := ioutil.ReadFile("./jokes.json")
+	jsonFile, err := ioutil.ReadFile("./api/jokes.json")
 	if err != nil {
 		log.Fatal("Error opening JSON: ", err)
 	}
