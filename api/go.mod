@@ -1,4 +1,4 @@
-module dadjokes
+module github.com/rnemeth90/go-dad-jokes
 
 go 1.18
 
